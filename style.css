@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+/* CSS değişkenlerini tanımlar. Bu örnekte, iki ana renk tanımlanmıştır */
+:root {
+  --line-border-fill: #3498db; /* İlerleme çubuğunun doldurulmuş kısmı için mavi renk */
+  --line-border-empty: #e0e0e0; /* İlerleme çubuğunun boş kısmı için gri renk */
+}
+
+* {
+  box-sizing: border-box; /* Bir etiketin toplam genişliğine ve yüksekliğine padding ve border'ı dahil etmemizi sağlar */
+}
+
+body {
+  background-color: #f6f7fb;
+  font-family: 'Muli', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+}
+
+.container {
+  text-align: center; /* Metinleri ortalamak için kullanılır */
+}
+
+/* İlerleme çubuğu ve adım göstergelerinin (dairelerin) konteynerini tanımlar. Flexbox ile içerik arasında boşluk bırakarak yan yana dizilmesini sağlar. */
+.progress-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 30px;
+  max-width: 100%;
+  width: 350px;
+}
+
+
+/* İlerleme çubuğunun boş kısmını gösteren gri bir çizgi ekler. Bu, bir pseudo-element ile yapılmıştır ve konteynerin tam genişliğine yayılır.*/
+.progress-container::before {
+  content: '';
+  background-color: var(--line-border-empty);
+  position: absolute; /* Kendisini kapsayan bir üst öğeye relative konumlanmışsa öğeye göre konum almaktadır. Böyle bir eleman bulunmazsa, nesne web sayfasına göre konumlanacaktır. */
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%); /*Transform özelliği sayesinde div bloklarına veya görsellere çeşitli görsel efektler uygulayabiliriz.*/
+  height: 4px;
+  width: 100%;
+  z-index: -1;
+}
+
+
+/* İlerleme çubuğunun doldurulmuş kısmını gösterir. Başlangıç genişliği %0'dır ve JavaScript ile dinamik olarak değiştirilir. Mavi renkli ve geçiş efektiyle genişliği artar.*/
+.progress {
+  background-color: var(--line-border-fill);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 0%;
+  z-index: -1;
+  transition: .4s ease;
+}
+
+
+/* Adım göstergelerini (daireleri) tanımlar. Beyaz arka plan, gri çerçeve ve metin rengiyle merkezde hizalanmış metni içerir.*/
+.circle {
+  background-color: #fff;
+  color: #999;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--line-border-empty);
+  transition: .4s ease;
+}
+
+/* Aktif adım göstergesinin stilini değiştirir.*/ 
+.circle.active {
+  border-color: var(--line-border-fill);
+}
+
+/* Butonların genel stilini tanımlar.*/
+.btn {
+  background-color: var(--line-border-fill);
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 8px 30px;
+  margin: 5px;
+  font-size: 14px;
+}
+
+/*Butona basıldığında butonun hafifçe küçülmesini sağlar */
+.btn:active {
+  transform: scale(.98);
+}
+
+/* Butona odaklanıldığında varsayılan tarayıcı odak çerçevesini kaldırır.*/
+.btn:focus {
+  outline: 0;
+}
+
+/* Devre dışı bırakılmış butonların stilini tanımlar. Arka plan rengi griye döner ve imleç "not-allowed" olarak değişir.*/ 
+.btn:disabled {
+  background-color: var(--line-border-empty);
+  cursor: not-allowed;
+}
